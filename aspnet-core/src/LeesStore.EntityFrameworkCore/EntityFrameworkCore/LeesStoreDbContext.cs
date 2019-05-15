@@ -3,6 +3,7 @@ using Abp.Zero.EntityFrameworkCore;
 using LeesStore.Authorization.Roles;
 using LeesStore.Authorization.Users;
 using LeesStore.MultiTenancy;
+using LeesStore.Products;
 
 namespace LeesStore.EntityFrameworkCore
 {
@@ -14,5 +15,7 @@ namespace LeesStore.EntityFrameworkCore
             : base(options)
         {
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
