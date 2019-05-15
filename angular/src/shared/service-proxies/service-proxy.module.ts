@@ -4,7 +4,7 @@ import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
 
 import * as ApiServiceProxies from './service-proxies';
 
-@NgModule({
+@NgModule({ 
     providers: [
         ApiServiceProxies.RoleServiceProxy,
         ApiServiceProxies.SessionServiceProxy,
@@ -13,6 +13,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.TokenAuthServiceProxy,
         ApiServiceProxies.AccountServiceProxy,
         ApiServiceProxies.ConfigurationServiceProxy,
+        ApiServiceProxies.ProductsServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })
