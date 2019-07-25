@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Abp.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
@@ -10,9 +11,9 @@ namespace LeesStore.Controllers
     {
         [HttpPost]
         [Route("{filename}.xlsx")]
-        public async Task<ActionResult> Download(string fileName)
+        [ProducesResponseType(typeof(FileContentResult), (int)HttpStatusCode.OK)]
+        public ActionResult Download(string fileName)
         {
-            await Task.Yield();
             var fileMemoryStream = GenerateReportAndWriteToMemoryStream();
             return File(fileMemoryStream,
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
