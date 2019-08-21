@@ -54,6 +54,10 @@
                     <mat-icon>edit</mat-icon>
                     <span>{{ "Edit" | localize }}</span>
                   </button>
+                  <button mat-menu-item (click)="fixProduct(product)">
+                    <mat-icon>tool</mat-icon>
+                    <span>Fix</span>
+                  </button>
                   <button mat-menu-item (click)="delete(product)">
                     <mat-icon>delete</mat-icon>
                     <span>{{ "Delete" | localize }}</span>
