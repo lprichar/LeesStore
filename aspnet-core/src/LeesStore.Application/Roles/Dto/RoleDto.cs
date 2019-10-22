@@ -7,7 +7,6 @@ using LeesStore.Authorization.Roles;
 
 namespace LeesStore.Roles.Dto
 {
-    [AutoMap(typeof(Role))]
     public class RoleDto : EntityDto<int>
     {
         [Required]
@@ -23,6 +22,6 @@ namespace LeesStore.Roles.Dto
         [StringLength(Role.MaxDescriptionLength)]
         public string Description { get; set; }
 
-        public List<string> Permissions { get; set; }
+        public List<string> GrantedPermissions { get; set; }
     }
 }

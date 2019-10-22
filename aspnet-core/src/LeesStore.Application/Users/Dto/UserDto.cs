@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
-using Abp.Runtime.Validation;
 using LeesStore.Authorization.Users;
 
 namespace LeesStore.Users.Dto

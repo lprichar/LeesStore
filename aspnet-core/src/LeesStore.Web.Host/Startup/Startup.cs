@@ -16,6 +16,7 @@ using LeesStore.Configuration;
 using LeesStore.Identity;
 
 using Abp.AspNetCore.SignalR.Hubs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LeesStore.Web.Host.Startup
 {
@@ -35,7 +36,7 @@ namespace LeesStore.Web.Host.Startup
             // MVC
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
-            );
+            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
@@ -96,7 +97,6 @@ namespace LeesStore.Web.Host.Startup
             app.UseAuthentication();
 
             app.UseAbpRequestLocalization();
-
 
             app.UseSignalR(routes =>
             {
