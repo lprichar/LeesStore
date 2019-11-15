@@ -219,9 +219,11 @@ export class ProductsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<ProductDto> {
+    get(id: number | undefined): Observable<ProductDto> {
         let url_ = this.baseUrl + "/api/services/app/Products/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -229,7 +231,7 @@ export class ProductsServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -258,7 +260,7 @@ export class ProductsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ProductDto.fromJS(resultData200) : new ProductDto();
+            result200 = ProductDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -275,13 +277,19 @@ export class ProductsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfProductDto> {
+    getAll(sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ProductDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Products/GetAll?";
-        if (sorting !== undefined)
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -289,7 +297,7 @@ export class ProductsServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -300,14 +308,14 @@ export class ProductsServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfProductDto>><any>_observableThrow(e);
+                    return <Observable<ProductDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfProductDto>><any>_observableThrow(response_);
+                return <Observable<ProductDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfProductDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<ProductDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -318,7 +326,7 @@ export class ProductsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfProductDto.fromJS(resultData200) : new PagedResultDtoOfProductDto();
+            result200 = ProductDtoPagedResultDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -326,26 +334,26 @@ export class ProductsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfProductDto>(<any>null);
+        return _observableOf<ProductDtoPagedResultDto>(<any>null);
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    create(input: ProductDto | null | undefined): Observable<ProductDto> {
+    create(body: ProductDto | undefined): Observable<ProductDto> {
         let url_ = this.baseUrl + "/api/services/app/Products/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -374,7 +382,7 @@ export class ProductsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ProductDto.fromJS(resultData200) : new ProductDto();
+            result200 = ProductDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -386,22 +394,22 @@ export class ProductsServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    update(input: ProductDto | null | undefined): Observable<ProductDto> {
+    update(body: ProductDto | undefined): Observable<ProductDto> {
         let url_ = this.baseUrl + "/api/services/app/Products/Update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -430,7 +438,7 @@ export class ProductsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ProductDto.fromJS(resultData200) : new ProductDto();
+            result200 = ProductDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -445,9 +453,11 @@ export class ProductsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | null | undefined): Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Products/Delete?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2263,8 +2273,8 @@ export interface IChangeUiThemeInput {
 
 export class ProductDto implements IProductDto {
     name: string | undefined;
-    quantity: number | undefined;
-    id: number | undefined;
+    quantity: number;
+    id: number;
 
     constructor(data?: IProductDto) {
         if (data) {
@@ -2308,15 +2318,15 @@ export class ProductDto implements IProductDto {
 
 export interface IProductDto {
     name: string | undefined;
-    quantity: number | undefined;
-    id: number | undefined;
+    quantity: number;
+    id: number;
 }
 
-export class PagedResultDtoOfProductDto implements IPagedResultDtoOfProductDto {
-    totalCount: number | undefined;
+export class ProductDtoPagedResultDto implements IProductDtoPagedResultDto {
+    totalCount: number;
     items: ProductDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfProductDto) {
+    constructor(data?: IProductDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2328,17 +2338,17 @@ export class PagedResultDtoOfProductDto implements IPagedResultDtoOfProductDto {
     init(data?: any) {
         if (data) {
             this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
                 for (let item of data["items"])
                     this.items.push(ProductDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfProductDto {
+    static fromJS(data: any): ProductDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfProductDto();
+        let result = new ProductDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -2346,7 +2356,7 @@ export class PagedResultDtoOfProductDto implements IPagedResultDtoOfProductDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
+        if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
                 data["items"].push(item.toJSON());
@@ -2354,16 +2364,16 @@ export class PagedResultDtoOfProductDto implements IPagedResultDtoOfProductDto {
         return data; 
     }
 
-    clone(): PagedResultDtoOfProductDto {
+    clone(): ProductDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfProductDto();
+        let result = new ProductDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfProductDto {
-    totalCount: number | undefined;
+export interface IProductDtoPagedResultDto {
+    totalCount: number;
     items: ProductDto[] | undefined;
 }
 
