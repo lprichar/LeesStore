@@ -34,6 +34,10 @@ $ngConfigPath = Join-Path $outputFolder "ng/assets/appconfig.json"
 (Get-Content $ngConfigPath) -replace "21021", "9901" | Set-Content $ngConfigPath
 (Get-Content $ngConfigPath) -replace "4200", "9902" | Set-Content $ngConfigPath
 
+$ngConfigProdPath = Join-Path $outputFolder "ng/assets/appconfig.production.json"
+(Get-Content $ngConfigProdPath) -replace "21021", "9901" | Set-Content $ngConfigProdPath
+(Get-Content $ngConfigProdPath) -replace "4200", "9902" | Set-Content $ngConfigProdPath
+
 ## CREATE DOCKER IMAGES #######################################################
 
 # Host
