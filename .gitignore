@@ -8,3 +8,4 @@ aspnet-core/src/LeesStore.Web.Host/App_Data/Logs/
 aspnet-core/src/LeesStore.Web.Mvc/App_Data/Logs/
 aspnet-core/src/LeesStore.Migrator/Logs/Logs.txt
 aspnet-core/build/outputs/
+aspnet-core/build/deploy.local.ps1
