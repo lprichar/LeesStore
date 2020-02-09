@@ -51,3 +51,19 @@ docker tag abp/host:latest $loginServer/leesstorehost:v1
 az acr login -n $registryName
 docker push $loginServer/leesstorehost:v1
 az acr repository list -n $registryName -o table
+
+# create a container group
+$containerGroupName = "lees-store-group"
+$acrPassword = az acr credential show -n $registryName --query "passwords[0].value"
+$acrName = az acr credential show -n $registryName --query "username"
+$hostDnsNameLabel = "leesstorehost"
+$hostFqdn = "http://$hostDnsNameLabel.$location.azurecontainer.io/"
+az container create -g $resourceGroup -n $containerGroupName --image $loginServer/leesstorehost:v1 --cpu 1 --memory 1 `
+    --registry-username $acrName --registry-password $acrPassword `
+    -e ConnectionStrings__Default=$connectionString App__ServerRootAddress=$hostFqdn App__CorsOrigins=$hostFqdn `
+    --ip-address public --dns-name-label $hostDnsNameLabel --ports 80
+az container show -g $resourceGroup -n $containerGroupName --query ipAddress.fqdn
+# az container logs -g $resourceGroup -n $containerGroupName
+az container exec -g $resourceGroup -n $containerGroupName --exec-command "/bin/bash"
+# az container delete -g $resourceGroup -n $containerGroupName
+az container stop -g $resourceGroup -n $containerGroupName 
