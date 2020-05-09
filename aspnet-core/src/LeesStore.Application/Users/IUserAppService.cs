@@ -11,5 +11,7 @@ namespace LeesStore.Users
         Task<ListResultDto<RoleDto>> GetRoles();
 
         Task ChangeLanguage(ChangeUserLanguageDto input);
+
+        Task<bool> ChangePassword(ChangePasswordDto input);
     }
 }

@@ -12,6 +12,7 @@ using Abp.Zero.Configuration;
 using LeesStore.Authentication.JwtBearer;
 using LeesStore.Configuration;
 using LeesStore.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace LeesStore
 {
@@ -23,10 +24,10 @@ namespace LeesStore
      )]
     public class LeesStoreWebCoreModule : AbpModule
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
 
-        public LeesStoreWebCoreModule(IHostingEnvironment env)
+        public LeesStoreWebCoreModule(IWebHostEnvironment env)
         {
             _env = env;
             _appConfiguration = env.GetAppConfiguration();
@@ -64,6 +65,12 @@ namespace LeesStore
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(typeof(LeesStoreWebCoreModule).GetAssembly());
+        }
+
+        public override void PostInitialize()
+        {
+            IocManager.Resolve<ApplicationPartManager>()
+                .AddApplicationPartsIfNotAddedBefore(typeof(LeesStoreWebCoreModule).Assembly);
         }
     }
 }
