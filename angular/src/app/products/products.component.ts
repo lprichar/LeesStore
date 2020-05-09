@@ -100,4 +100,8 @@ export class ProductsComponent extends PagedListingComponentBase<ProductDto> {
             }
         });
     }
+
+    public fixProduct(product: ProductDto) {
+        this._productService.increment(product.id).subscribe(this.refresh.bind(this));
+    }
 }
