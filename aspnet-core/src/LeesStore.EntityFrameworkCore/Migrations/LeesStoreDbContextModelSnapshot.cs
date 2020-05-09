@@ -1587,6 +1587,8 @@ namespace LeesStore.Migrations
 
                     b.Property<int>("Quantity");
 
+                    b.Property<int>("TenantId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Products");
