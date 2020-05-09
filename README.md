@@ -8,6 +8,7 @@ This is an implementation of an [ASP.Net Boilerplate](https://aspnetboilerplate.
 * [Multi-Tenancy is Hard: ASP.Net Boilerplate Makes it Easy](http://www.leerichardson.com/2019/12/multi-tenancy-is-hard-aspnet.html)
 * [Be a Hero on Day 1 with ASP.Net Boilerplate](http://www.leerichardson.com/2019/05/be-hero-on-day-1-with-aspnet-boilerplate.html)
 * [Stored Procedures in ASP.Net Boilerplate](http://www.leerichardson.com/2019/09/e23-stored-procedures-in-aspnet.html)
+* Fighting File Downloads and Dinosaurs with NSwag (via ASP.Net Boilerplate)(http://www.leerichardson.com/2019/07/fighting-file-downloads-and-dinosaurs.html)
 
 # ABP Videos
 
