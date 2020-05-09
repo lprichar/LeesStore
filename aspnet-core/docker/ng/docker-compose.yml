@@ -5,7 +5,11 @@ services:
     abp_host:
         image: abp/host
         environment:
-            - ASPNETCORE_ENVIRONMENT=Staging
+            ASPNETCORE_ENVIRONMENT: 'Staging'
+            ConnectionStrings__Default: 'Server=docker.for.win.localhost; Database=LeesStoreDb; User Id=??; Password=??;'
+            App__ServerRootAddress: 'http://localhost:9901/'
+            App__ClientRootAddress: 'http://localhost:9902/'
+            App__CorsOrigins: 'http://localhost:9902'
         ports:
             - "9901:80"
         volumes:
