@@ -8,7 +8,7 @@ import {
 import {
     ProductsServiceProxy,
     ProductDto,
-    PagedResultDtoOfProductDto
+    ProductDtoPagedResultDto
 } from '@shared/service-proxies/service-proxies';
 import { CreateProductDialogComponent } from './create-product/create-product-dialog.component';
 import { EditProductDialogComponent } from './edit-product/edit-product-dialog.component';
@@ -44,13 +44,13 @@ export class ProductsComponent extends PagedListingComponentBase<ProductDto> {
     ): void {
 
         this._productService
-            .getAll(null, request.skipCount, request.maxResultCount)
+            .getAll('', request.skipCount, request.maxResultCount)
             .pipe(
                 finalize(() => {
                     finishedCallback();
                 })
             )
-            .subscribe((result: PagedResultDtoOfProductDto) => {
+            .subscribe((result: ProductDtoPagedResultDto) => {
                 this.products = result.items;
                 this.showPaging(result, pageNumber);
             });
@@ -59,6 +59,7 @@ export class ProductsComponent extends PagedListingComponentBase<ProductDto> {
     delete(product: ProductDto): void {
         abp.message.confirm(
             this.l('ProductDeleteWarningMessage', product.name),
+            undefined,
             (result: boolean) => {
                 if (result) {
                     this._productService
