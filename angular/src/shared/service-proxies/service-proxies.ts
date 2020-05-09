@@ -219,9 +219,11 @@ export class ProductsServiceProxy {
      * @param productId (optional) 
      * @return Success
      */
-    increment(productId: number | null | undefined): Observable<void> {
+    increment(productId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Products/Increment?";
-        if (productId !== undefined)
+        if (productId === null)
+            throw new Error("The parameter 'productId' cannot be null.");
+        else if (productId !== undefined)
             url_ += "productId=" + encodeURIComponent("" + productId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 

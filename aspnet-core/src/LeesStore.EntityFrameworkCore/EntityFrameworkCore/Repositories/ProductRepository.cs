@@ -1,11 +1,11 @@
-﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
-using Abp.Data;
+﻿using Abp.Data;
 using Abp.EntityFrameworkCore;
 using LeesStore.Products;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
+using System.Data.Common;
 
 namespace LeesStore.EntityFrameworkCore.Repositories
 {
@@ -27,7 +27,7 @@ namespace LeesStore.EntityFrameworkCore.Repositories
             dbCommand.Transaction = GetActiveTransaction();
             dbCommand.CommandText = "GetIdealProductQuantity";
             dbCommand.CommandType = CommandType.StoredProcedure;
-            dbCommand.Parameters.Add(new SqlParameter("@ProductId", SqlDbType.Int) {Value = productId});
+            dbCommand.Parameters.Add(new SqlParameter("@ProductId", SqlDbType.Int) { Value = productId });
             using (var dbDataReader = dbCommand.ExecuteReader())
             {
                 while (dbDataReader.Read())
