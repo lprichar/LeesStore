@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
@@ -9,6 +7,8 @@ using Abp.Runtime.Session;
 using LeesStore.Authorization;
 using LeesStore.Products.Dto;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LeesStore.Products
 {
@@ -24,7 +24,7 @@ namespace LeesStore.Products
             _session = session;
         }
 
-        public override async Task<PagedResultDto<ProductDto>> GetAll(PagedAndSortedResultRequestDto input)
+        public override async Task<PagedResultDto<ProductDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             if (_session.TenantId == 2)
             {
@@ -35,11 +35,12 @@ namespace LeesStore.Products
                     var totalCount = await query.CountAsync();
                     query = ApplySorting(query, input);
                     query = ApplyPaging(query, input);
-                    var items = query.Select(i => MapToEntityDto(i)).ToList();
+                    var entities = await AsyncQueryableExecuter.ToListAsync(query);
+                    var items = entities.Select(MapToEntityDto).ToList();
                     return new PagedResultDto<ProductDto>(totalCount, items);
                 }
             }
-            return await base.GetAll(input);
+            return await base.GetAllAsync(input);
         }
     }
 }
