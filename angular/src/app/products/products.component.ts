@@ -1,3 +1,4 @@
+import { ApiServiceProxy } from './../../shared/service-proxies/service-proxies';
 import { Component, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
@@ -12,6 +13,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { CreateProductDialogComponent } from './create-product/create-product-dialog.component';
 import { EditProductDialogComponent } from './edit-product/edit-product-dialog.component';
+import * as moment from 'moment';
 
 @Component({
     templateUrl: './products.component.html',
@@ -32,7 +34,8 @@ export class ProductsComponent extends PagedListingComponentBase<ProductDto> {
     constructor(
         injector: Injector,
         private _productService: ProductsServiceProxy,
-        private _dialog: MatDialog
+        private _dialog: MatDialog,
+        private apiServiceProxy: ApiServiceProxy,
     ) {
         super(injector);
     }
@@ -99,5 +102,16 @@ export class ProductsComponent extends PagedListingComponentBase<ProductDto> {
                 this.refresh();
             }
         });
+    }
+
+    public download() {
+        const fileName = moment().format('YYYY-MM-DD');
+        this.apiServiceProxy.productFiles(fileName)
+            .subscribe(fileResponse => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(fileResponse.data);
+                a.download = fileName + '.xlsx';
+                a.click();
+            });
     }
 }
