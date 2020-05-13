@@ -14,9 +14,9 @@ namespace LeesStore.Cmd
             Console.WriteLine("Enter a product id:");
             var key = Console.ReadKey();
             var productId = int.Parse(key.KeyChar.ToString());
-            var product = await clientApiProxy.ProductAsync(productId);
+            var product = await clientApiProxy.GetProductAsync(productId);
             Console.WriteLine();
-            Console.WriteLine($"That's: '{product.Name}'");
+            Console.WriteLine($"Your product is: '{product.Name}'");
         }
     }
 }

@@ -46,15 +46,15 @@ namespace LeesStore.Cmd.ClientProxy
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<ProductDto> ProductAsync(int id)
+        public System.Threading.Tasks.Task<ProductDto> GetProductAsync(int id)
         {
-            return ProductAsync(id, System.Threading.CancellationToken.None);
+            return GetProductAsync(id, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<ProductDto> ProductAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ProductDto> GetProductAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");

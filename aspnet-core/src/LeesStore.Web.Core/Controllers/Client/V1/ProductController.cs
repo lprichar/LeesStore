@@ -17,9 +17,10 @@ namespace LeesStore.Controllers.Client.V1
             _productRepository = productRepository;
         }
 
-        [HttpGet("api/client/v1/product/{id}")]
+        [HttpGet("api/client/v1/product/{id}", Name = nameof(GetProduct))]
         //[ProducesResponseType(typeof(List<Product>, 200))]
-        public async Task<ProductDto> Get(int id)
+        //[SwaggerOperation(OperationId = "GetProduct")]
+        public async Task<ProductDto> GetProduct(int id)
         {
             var product = await _productRepository.GetAsync(id);
             var productDto = ObjectMapper.Map<ProductDto>(product);
