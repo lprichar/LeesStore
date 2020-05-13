@@ -11,15 +11,12 @@ namespace LeesStore.Web.Host.Startup
     {
         public void Apply(ControllerModel controller)
         {
-            var controllerNamespace = controller.ControllerType.Namespace;
-            var namespaceElements = controllerNamespace == null ? new string[0] : controllerNamespace.Split('.');
+            var controllerNamespace = controller?.ControllerType?.Namespace;
+            if (controllerNamespace == null) return;
+            var namespaceElements = controllerNamespace.Split('.');
             var nextToLastNamespace = namespaceElements.ElementAtOrDefault(namespaceElements.Length - 2)?.ToLowerInvariant();
-            var lastNamespace = namespaceElements.LastOrDefault()?.ToLowerInvariant();
-            var isInClientNamespace = nextToLastNamespace == "client" || lastNamespace == "client";
-            // when we get to a V2 this we will need a mapping from namespaces to swagger file versions here
-            controller.ApiExplorer.GroupName = isInClientNamespace ?
-                Startup.SwashbuckleClientV1ApiGroupName :
-                Startup.SwashbuckleWebAppApiGroupName;
+            var isInClientNamespace = nextToLastNamespace == "client";
+            controller.ApiExplorer.GroupName = isInClientNamespace ? "client-v1" : "v1";
         }
     }
 }
