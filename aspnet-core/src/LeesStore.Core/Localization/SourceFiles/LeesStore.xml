@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="ApiKeys" value="API Keys" />
     <text name="HomePage" value="Home page" />
     <text name="About" value="About" />
     <text name="Products" value="Products" />

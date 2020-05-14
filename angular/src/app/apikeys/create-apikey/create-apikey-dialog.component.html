@@ -1,0 +1,28 @@
+<form autocomplete="off" #createApiKeyForm="ngForm" (ngSubmit)="save()">
+  <h1 mat-dialog-title>Create New ApiKey</h1>
+  <mat-dialog-content>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <mat-form-field>
+          <input matInput name="ApiKey" placeholder="Api Key" [(ngModel)]="apikey.apiKey" required
+            maxlength="128" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field>
+          <input matInput name="Secret" type="password" placeholder="Secret" [(ngModel)]="apikey.secret" required
+            maxlength="128" />
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+    <button mat-button type="button" [disabled]="saving" (click)="close(false)">
+      {{ "Cancel" | localize }}
+    </button>
+    <button mat-flat-button type="submit" flex="15" color="primary"
+      [disabled]="!createApiKeyForm.form.valid || saving">
+      {{ "Save" | localize }}
+    </button>
+  </div>
+</form>
