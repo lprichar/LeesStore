@@ -48,10 +48,6 @@
                   <mat-icon>menu</mat-icon>
                 </button>
                 <mat-menu #actionsMenu="matMenu">
-                  <button mat-menu-item (click)="editApiKey(apikey)">
-                    <mat-icon>edit</mat-icon>
-                    <span>{{ "Edit" | localize }}</span>
-                  </button>
                   <button mat-menu-item (click)="delete(apikey)">
                     <mat-icon>delete</mat-icon>
                     <span>{{ "Delete" | localize }}</span>

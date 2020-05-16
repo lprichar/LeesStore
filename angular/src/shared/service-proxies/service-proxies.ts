@@ -152,6 +152,113 @@ export class ApiKeysServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateApiKeyDto | undefined): Observable<ApiKeyDto> {
+        let url_ = this.baseUrl + "/api/services/app/ApiKeys/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<ApiKeyDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ApiKeyDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<ApiKeyDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ApiKeyDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ApiKeyDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    makeApiKey(): Observable<CreateApiKeyDto> {
+        let url_ = this.baseUrl + "/api/services/app/ApiKeys/MakeApiKey";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMakeApiKey(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMakeApiKey(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateApiKeyDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateApiKeyDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMakeApiKey(response: HttpResponseBase): Observable<CreateApiKeyDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreateApiKeyDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateApiKeyDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -271,62 +378,6 @@ export class ApiKeysServiceProxy {
             }));
         }
         return _observableOf<ApiKeyDtoPagedResultDto>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    create(body: CreateApiKeyDto | undefined): Observable<ApiKeyDto> {
-        let url_ = this.baseUrl + "/api/services/app/ApiKeys/Create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json", 
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<ApiKeyDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ApiKeyDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<ApiKeyDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = ApiKeyDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ApiKeyDto>(<any>null);
     }
 
     /**
@@ -2526,6 +2577,57 @@ export interface IRegisterOutput {
     canLogin: boolean;
 }
 
+export class CreateApiKeyDto implements ICreateApiKeyDto {
+    secret: string | undefined;
+    apiKey: string | undefined;
+    id: number;
+
+    constructor(data?: ICreateApiKeyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.secret = data["secret"];
+            this.apiKey = data["apiKey"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateApiKeyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateApiKeyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["secret"] = this.secret;
+        data["apiKey"] = this.apiKey;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CreateApiKeyDto {
+        const json = this.toJSON();
+        let result = new CreateApiKeyDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateApiKeyDto {
+    secret: string | undefined;
+    apiKey: string | undefined;
+    id: number;
+}
+
 export class ApiKeyDto implements IApiKeyDto {
     apiKey: string | undefined;
     id: number;
@@ -2626,57 +2728,6 @@ export class ApiKeyDtoPagedResultDto implements IApiKeyDtoPagedResultDto {
 export interface IApiKeyDtoPagedResultDto {
     totalCount: number;
     items: ApiKeyDto[] | undefined;
-}
-
-export class CreateApiKeyDto implements ICreateApiKeyDto {
-    secret: string | undefined;
-    apiKey: string | undefined;
-    id: number;
-
-    constructor(data?: ICreateApiKeyDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.secret = data["secret"];
-            this.apiKey = data["apiKey"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateApiKeyDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateApiKeyDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["secret"] = this.secret;
-        data["apiKey"] = this.apiKey;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): CreateApiKeyDto {
-        const json = this.toJSON();
-        let result = new CreateApiKeyDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateApiKeyDto {
-    secret: string | undefined;
-    apiKey: string | undefined;
-    id: number;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {

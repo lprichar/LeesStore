@@ -3,9 +3,8 @@ import { MatDialogRef } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
-  ApiKeyDto,
   ApiKeysServiceProxy,
-  CreateApiKeyDto
+  CreateApiKeyDto,
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
@@ -18,8 +17,8 @@ import {
       mat-checkbox {
         padding-bottom: 5px;
       }
-    `
-  ]
+    `,
+  ],
 })
 export class CreateApiKeysDialogComponent extends AppComponentBase
   implements OnInit {
@@ -34,10 +33,13 @@ export class CreateApiKeysDialogComponent extends AppComponentBase
     super(injector);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this._apikeyService
+      .makeApiKey()
+      .subscribe((apiKey) => (this.apikey = apiKey));
   }
 
-  save(): void {
+  public save(): void {
     this.saving = true;
 
     this._apikeyService
@@ -53,7 +55,13 @@ export class CreateApiKeysDialogComponent extends AppComponentBase
       });
   }
 
-  close(result: any): void {
+  public copyInputToClipboard(inputElement: HTMLInputElement) {
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+  }
+
+  public close(result: any): void {
     this._dialogRef.close(result);
   }
 }

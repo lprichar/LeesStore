@@ -61,5 +61,14 @@ namespace LeesStore.ApiKeys
                 ApiKey = apiKey.UserName
             };
         }
+
+        public CreateApiKeyDto MakeApiKey()
+        {
+            return new CreateApiKeyDto
+            {
+                ApiKey = User.CreateRandomPassword(),
+                Secret = User.CreateRandomPassword()
+            };
+        }
     }
 }
