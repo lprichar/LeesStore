@@ -1,5 +1,7 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Authorization;
+using Abp.Domain.Repositories;
 using Abp.Web.Models;
+using LeesStore.Authorization;
 using LeesStore.Products;
 using LeesStore.Products.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 namespace LeesStore.Controllers.Client.V1
 {
     [DontWrapResult(WrapOnError = false, WrapOnSuccess = false, LogError = true)]
+    [AbpAuthorize(PermissionNames.Pages_Products)]
     public class ProductController : LeesStoreControllerBase
     {
         private readonly IRepository<Product, int> _productRepository;
