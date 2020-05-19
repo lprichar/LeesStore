@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
-using Abp.AutoMapper;
-using LeesStore.Authorization.ApiKeys;
+using System.ComponentModel.DataAnnotations;
 
 namespace LeesStore.ApiKeys.Dto
 {
-    [AutoMapFrom(typeof(ApiKey))]
     public class ApiKeyDto : EntityDto<long>
     {
         [Required]

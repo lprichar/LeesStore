@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LeesStore.Controllers.Client.V1
 {
     [DontWrapResult(WrapOnError = false, WrapOnSuccess = false, LogError = true)]
-    [AbpAuthorize(PermissionNames.Pages_Products)]
+    [AbpAuthorize(PermissionNames.Api)]
     public class ProductController : LeesStoreControllerBase
     {
         private readonly IRepository<Product, int> _productRepository;
