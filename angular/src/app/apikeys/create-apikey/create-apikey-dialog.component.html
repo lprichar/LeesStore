@@ -1,0 +1,27 @@
+<form autocomplete="off" #createApiKeyForm="ngForm" (ngSubmit)="save()">
+  <h1 mat-dialog-title>Create New ApiKey</h1>
+  <mat-dialog-content>
+      <mat-form-field class="col-sm-12" >
+        <input matInput name="ApiKey" placeholder="Api Key" [(ngModel)]="apikey.apiKey" required readonly
+          maxlength="128" #keyInput />
+        <button mat-icon-button matSuffix type="button" (click)="copyInputToClipboard(keyInput)">
+          <mat-icon matTooltip="Copy to clipboard">content_copy</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="col-sm-12" hintLabel="Carefully store this value, we can not retrieve it">
+        <input matInput name="Secret" type="text" placeholder="Secret" [(ngModel)]="apikey.secret" required readonly
+          maxlength="128" #secretInput />
+        <button mat-icon-button matSuffix type="button" (click)="copyInputToClipboard(secretInput)">
+          <mat-icon matTooltip="Copy to clipboard">content_copy</mat-icon>
+        </button>
+      </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="button" [disabled]="saving" (click)="close(false)">
+      {{ "Cancel" | localize }}
+    </button>
+    <button mat-flat-button type="submit" flex="15" color="primary" [disabled]="!createApiKeyForm.form.valid || saving">
+      {{ "Save" | localize }}
+    </button>
+  </mat-dialog-actions>
+</form>

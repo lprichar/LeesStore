@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Abp.Authorization.Users;
+﻿using Abp.Authorization.Users;
 using Abp.Extensions;
+using System;
+using System.Collections.Generic;
 
 namespace LeesStore.Authorization.Users
 {
@@ -30,5 +30,7 @@ namespace LeesStore.Authorization.Users
 
             return user;
         }
+
+        public string Discriminator { get; set; }
     }
 }

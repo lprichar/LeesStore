@@ -9,6 +9,7 @@ import { TenantsComponent } from './tenants/tenants.component';
 import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ProductsComponent } from './products/products.component';
+import { ApiKeysComponent } from './apikeys/apikeys.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,12 @@ import { ProductsComponent } from './products/products.component';
             path: 'roles',
             component: RolesComponent,
             data: { permission: 'Pages.Roles' },
+            canActivate: [AppRouteGuard]
+          },
+          {
+            path: 'apikeys',
+            component: ApiKeysComponent,
+            data: { permission: 'Pages.ApiKeys' },
             canActivate: [AppRouteGuard]
           },
           {
