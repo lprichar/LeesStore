@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Abp.Authorization.Users;
+﻿using Abp.Authorization.Users;
 using Abp.AutoMapper;
 using LeesStore.Authorization.ApiKeys;
+using System.ComponentModel.DataAnnotations;
 
 namespace LeesStore.ApiKeys.Dto
 {

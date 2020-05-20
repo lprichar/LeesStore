@@ -16,11 +16,12 @@ namespace LeesStore.Cmd
             Console.WriteLine("Secret:");
             var secret = Console.ReadLine();
 
-            var authenticateResultModel = await clientApiProxy.AuthenticateAsync(new ClientAuthenticateModel
+            var authenticateModel = new ClientAuthenticateModel
             {
                 ApiKey = apiKey,
                 Secret = secret
-            });
+            };
+            var authenticateResultModel = await clientApiProxy.AuthenticateAsync(authenticateModel);
 
             clientApiProxy.AccessToken = authenticateResultModel.AccessToken;
 
