@@ -4,14 +4,16 @@ using LeesStore.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LeesStore.Migrations
 {
     [DbContext(typeof(LeesStoreDbContext))]
-    partial class LeesStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200928141743_Upgraded_To_ABP_5_13_0")]
+    partial class Upgraded_To_ABP_5_13_0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
