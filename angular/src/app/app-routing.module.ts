@@ -1,31 +1,35 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
-import { AppRouteGuard } from '@shared/auth/auth-route-guard';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { UsersComponent } from './users/users.component';
-import { TenantsComponent } from './tenants/tenants.component';
-import { RolesComponent } from 'app/roles/roles.component';
-import { ChangePasswordComponent } from './users/change-password/change-password.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('@abp/ng.account').then((m) => m.AccountModule.forLazy({ redirectUrl: '/' })),
+  },
+  {
+    path: 'identity',
+    loadChildren: () => import('@abp/ng.identity').then((m) => m.IdentityModule.forLazy()),
+  },
+  {
+    path: 'tenant-management',
+    loadChildren: () =>
+      import('@abp/ng.tenant-management').then((m) => m.TenantManagementModule.forLazy()),
+  },
+  {
+    path: 'setting-management',
+    loadChildren: () =>
+      import('@abp/ng.setting-management').then((m) => m.SettingManagementModule.forLazy()),
+  },
+];
 
 @NgModule({
-    imports: [
-        RouterModule.forChild([
-            {
-                path: '',
-                component: AppComponent,
-                children: [
-                    { path: 'home', component: HomeComponent,  canActivate: [AppRouteGuard] },
-                    { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
-                    { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
-                    { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
-                    { path: 'about', component: AboutComponent },
-                    { path: 'update-password', component: ChangePasswordComponent }
-                ]
-            }
-        ])
-    ],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -250,3 +250,11 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# LeesStore
+src/LeesStore.Web/Logs/*
+src/LeesStore.Web.Host/Logs/*
+src/LeesStore.IdentityServer/Logs/*
+src/LeesStore.HttpApi.Host/Logs/*
+src/LeesStore.HttpApi.Host/Logs/*
+src/LeesStore.DbMigrator/Logs/*
