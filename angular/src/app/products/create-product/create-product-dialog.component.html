@@ -1,0 +1,17 @@
+<form class="form-horizontal" autocomplete="off" #createProductForm="ngForm" (ngSubmit)="save()">
+  <abp-modal-header [title]="'CreateNewProduct' | localize" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="name">
+        Name
+      </label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" name="name" id="name" minlength="2" maxlength="64" required
+          [(ngModel)]="product.name" #nameModel="ngModel" #nameEl />
+        <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createProductForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+</form>
