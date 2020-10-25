@@ -15,6 +15,19 @@ function configureRoutes(routes: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
+      {
+        path: '/product-store',
+        name: '::Menu:ProductStore',
+        iconClass: 'fas fa-book',
+        order: 2,
+        layout: eLayoutType.application
+      },
+      {
+        path: '/products',
+        name: '::Menu:Products',
+        parentName: '::Menu:ProductStore',
+        layout: eLayoutType.application
+      },
     ]);
   };
 }
