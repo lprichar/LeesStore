@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LeesStore.Products;
 using LeesStore.Users;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -21,6 +22,7 @@ namespace LeesStore.EntityFrameworkCore
     public class LeesStoreDbContext : AbpDbContext<LeesStoreDbContext>
     {
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         /* Add DbSet properties for your Aggregate Roots / Entities here.
          * Also map them inside LeesStoreDbContextModelCreatingExtensions.ConfigureLeesStore
@@ -41,7 +43,7 @@ namespace LeesStore.EntityFrameworkCore
             builder.Entity<AppUser>(b =>
             {
                 b.ToTable(AbpIdentityDbProperties.DbTablePrefix + "Users"); //Sharing the same table "AbpUsers" with the IdentityUser
-                
+
                 b.ConfigureByConvention();
                 b.ConfigureAbpUser();
 

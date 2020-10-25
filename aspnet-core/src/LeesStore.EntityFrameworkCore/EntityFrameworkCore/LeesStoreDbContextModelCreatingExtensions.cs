@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LeesStore.Products;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace LeesStore.EntityFrameworkCore
 {
@@ -10,6 +12,12 @@ namespace LeesStore.EntityFrameworkCore
             Check.NotNull(builder, nameof(builder));
 
             /* Configure your own tables/entities inside here */
+
+            builder.Entity<Product>(i =>
+            {
+                i.ToTable(LeesStoreConsts.DbTablePrefix + "Products", LeesStoreConsts.DbSchema);
+                i.ConfigureByConvention();
+            });
 
             //builder.Entity<YourEntity>(b =>
             //{
