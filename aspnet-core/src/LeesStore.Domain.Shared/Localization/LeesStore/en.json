@@ -3,6 +3,13 @@
   "texts": {
     "Menu:Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Menu:Products": "Products",
+    "NewProduct": "New Product",
+    "AreYouSure": "Are You Sure?",
+    "AreYouSureToDelete": "Are you sure you want to delete this item?",
+    "Enum:ProductType:0": "Other",
+    "Enum:ProductType:1": "Siren",
+    "Enum:ProductType:2": "Mug"
   }
 }
