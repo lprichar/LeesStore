@@ -1,6 +1,5 @@
-﻿using LeesStore.Products;
-using Microsoft.EntityFrameworkCore;
-using Volo.Abp;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace LeesStore.EntityFrameworkCore
@@ -9,15 +8,25 @@ namespace LeesStore.EntityFrameworkCore
     {
         public static void ConfigureLeesStore(this ModelBuilder builder)
         {
-            Check.NotNull(builder, nameof(builder));
+            var allDbSets = typeof(LeesStoreDbContext).GetProperties()
+                .Where(p => p.PropertyType.Name == "DbSet`1")
+                .Select(p => new
+                {
+                    Type = p.PropertyType.GetGenericArguments()[0],
+                    p.Name
+                });
+
+            foreach (var property in allDbSets)
+            {
+                var type = property.Type;
+                builder.Entity(type, i =>
+                {
+                    i.ToTable(LeesStoreConsts.DbTablePrefix + property.Name, LeesStoreConsts.DbSchema);
+                    i.ConfigureByConvention();
+                });
+            }
 
             /* Configure your own tables/entities inside here */
-
-            builder.Entity<Product>(i =>
-            {
-                i.ToTable(LeesStoreConsts.DbTablePrefix + "Products", LeesStoreConsts.DbSchema);
-                i.ConfigureByConvention();
-            });
 
             //builder.Entity<YourEntity>(b =>
             //{
