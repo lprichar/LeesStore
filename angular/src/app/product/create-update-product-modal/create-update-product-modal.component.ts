@@ -11,14 +11,15 @@ export class CreateUpdateProductModalComponent implements OnInit {
   public isModalOpen: boolean;
   public form: FormGroup;
   public productTypes = productTypeOptions;
-
   @Output()
   public productChanged: EventEmitter<any> = new EventEmitter<any>();
+  public product: ProductDto;
 
   constructor(private formBuilder: FormBuilder, private productService: ProductsService) {}
 
   public open(product?: ProductDto) {
-    const currentProduct = product || {} as ProductDto;
+    this.product = product;
+    const currentProduct = product || ({} as ProductDto);
     this.isModalOpen = true;
     this.form = this.formBuilder.group({
       name: [currentProduct.name, Validators.required],
@@ -31,10 +32,18 @@ export class CreateUpdateProductModalComponent implements OnInit {
   public ngOnInit(): void {}
 
   public save() {
-    this.productService.create(this.form.value).subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.productChanged.emit();
-    });
+    if (this.product) {
+      this.productService
+        .update(this.product.id, this.form.value)
+        .subscribe(this.onSaveComplete.bind(this));
+    } else {
+      this.productService.create(this.form.value).subscribe(this.onSaveComplete.bind(this));
+    }
+  }
+
+  private onSaveComplete() {
+    this.isModalOpen = false;
+    this.form.reset();
+    this.productChanged.emit();
   }
 }

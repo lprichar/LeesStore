@@ -1,6 +1,6 @@
 <abp-modal [(visible)]="isModalOpen">
   <ng-template #abpHeader>
-    <h3>{{ '::NewProduct' | abpLocalization }}</h3>
+    <h3>{{ (product ? '::EditProduct' : '::NewProduct') | abpLocalization }}</h3>
   </ng-template>
   <ng-template #abpBody>
     <form [formGroup]="form" (ngSubmit)="save()">

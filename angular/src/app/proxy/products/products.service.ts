@@ -1,4 +1,4 @@
-import type { ProductDto } from './models';
+import type { CreateProductDto, ProductDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 export class ProductsService {
   apiName = 'Default';
 
-  create = (input: ProductDto) =>
+  create = (input: CreateProductDto) =>
     this.restService.request<any, ProductDto>({
       method: 'POST',
       url: `/api/app/products`,
@@ -39,7 +39,7 @@ export class ProductsService {
     },
     { apiName: this.apiName });
 
-  update = (id: number, input: ProductDto) =>
+  update = (id: number, input: CreateProductDto) =>
     this.restService.request<any, ProductDto>({
       method: 'PUT',
       url: `/api/app/products/${id}`,

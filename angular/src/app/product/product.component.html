@@ -7,9 +7,9 @@
         </h5>
       </div>
       <div class="text-right col col-md-6">
-          <button id="create" class="btn btn-primary" type="button" (click)="createProduct()">
-            <i class="fa fa-plus"></i>
-          </button>
+        <button id="create" class="btn btn-primary" type="button" (click)="createProduct()">
+          <i class="fa fa-plus"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -21,14 +21,14 @@
           {{ '::Enum:ProductType:' + row.productType | abpLocalization }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::PublishDate' | abpLocalization" prop="publishDate">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.creationTime | date }}
-        </ng-template>
-      </ngx-datatable-column>
       <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.price | currency }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::CreationTime' | abpLocalization" prop="publishDate">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.creationTime | date }}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="70" [sortable]="false">

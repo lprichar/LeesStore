@@ -1,9 +1,10 @@
-﻿using Volo.Abp.Application.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LeesStore.Products
 {
-    public class ProductDto : AuditedEntityDto<int>
+    public class CreateProductDto
     {
+        [Required, MaxLength(255)]
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }

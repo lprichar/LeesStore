@@ -10,7 +10,7 @@ import { CreateUpdateProductModalComponent } from './create-update-product-modal
   providers: [ListService],
 })
 export class ProductComponent implements OnInit {
-  public product = { items: [], totalCount: 0 } as PagedResultDto<ProductDto>;
+  public product: PagedResultDto<ProductDto> = { items: [], totalCount: 0 } as PagedResultDto<ProductDto>;
   public isModalOpen = false;
 
   constructor(public readonly listService: ListService, private productService: ProductsService) {}
