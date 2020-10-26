@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductsService, productTypeOptions } from '@proxy/products';
+import { ProductDto, ProductsService, productTypeOptions } from '@proxy/products';
 
 @Component({
   selector: 'app-create-update-product-modal',
@@ -17,13 +17,14 @@ export class CreateUpdateProductModalComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private productService: ProductsService) {}
 
-  public open() {
+  public open(product?: ProductDto) {
+    const currentProduct = product || {} as ProductDto;
     this.isModalOpen = true;
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      productType: [null, Validators.required],
-      quantity: [null, Validators.required],
-      price: [null, Validators.required],
+      name: [currentProduct.name, Validators.required],
+      productType: [currentProduct.productType, Validators.required],
+      quantity: [currentProduct.quantity, Validators.required],
+      price: [currentProduct.price, Validators.required],
     });
   }
 

@@ -30,8 +30,11 @@ export class ProductComponent implements OnInit {
     this.createUpdateProductModal.open();
   }
 
+  public editProduct(product: ProductDto) {
+    this.createUpdateProductModal.open(product);
+  }
+
   public onProductChanged(): void {
-    debugger;
     this.listService.get();
   }
 }
