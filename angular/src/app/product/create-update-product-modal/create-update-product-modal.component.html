@@ -1,0 +1,40 @@
+<abp-modal [(visible)]="isModalOpen">
+  <ng-template #abpHeader>
+    <h3>{{ '::NewProduct' | abpLocalization }}</h3>
+  </ng-template>
+  <ng-template #abpBody>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="name">Name</label><span> * </span>
+        <input type="text" id="name" class="form-control" formControlName="name" autofocus />
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity</label><span> * </span>
+        <input type="number" id="quantity" class="form-control" formControlName="quantity" />
+      </div>
+
+      <div class="form-group">
+        <label for="price">Price</label><span> * </span>
+        <input type="number" id="price" class="form-control" formControlName="price" />
+      </div>
+
+      <div class="form-group">
+        <label for="productType">Type</label><span> * </span>
+        <select class="form-control" id="productType" formControlName="productType">
+          <option [ngValue]="null">Select a product type</option>
+          <option [ngValue]="type.value" *ngFor="let type of productTypes"> {{ type.key }}</option>
+        </select>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" #abpClose>
+      {{ '::Close' | abpLocalization }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+      <i class="fa fa-check mr-1"></i>
+      {{ '::Save' | abpLocalization }}
+    </button>
+  </ng-template>
+</abp-modal>

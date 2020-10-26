@@ -1,6 +1,7 @@
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductDto, ProductsService } from '@proxy/products';
+import { CreateUpdateProductModalComponent } from './create-update-product-modal/create-update-product-modal.component';
 
 @Component({
   selector: 'app-product',
@@ -9,15 +10,28 @@ import { ProductDto, ProductsService } from '@proxy/products';
   providers: [ListService],
 })
 export class ProductComponent implements OnInit {
-  product = { items: [], totalCount: 0 } as PagedResultDto<ProductDto>;
+  public product = { items: [], totalCount: 0 } as PagedResultDto<ProductDto>;
+  public isModalOpen = false;
 
-  constructor(public readonly list: ListService, private productService: ProductsService) {}
+  constructor(public readonly listService: ListService, private productService: ProductsService) {}
 
-  ngOnInit(): void {
+  @ViewChild('createUpdateProductModal', { static: false })
+  protected createUpdateProductModal: CreateUpdateProductModalComponent;
+
+  public ngOnInit(): void {
     const productStreamCreator = query => this.productService.getList(query);
 
-    this.list.hookToQuery(productStreamCreator).subscribe(response => {
+    this.listService.hookToQuery(productStreamCreator).subscribe(response => {
       this.product = response;
     });
+  }
+
+  public createProduct() {
+    this.createUpdateProductModal.open();
+  }
+
+  public onProductChanged(): void {
+    debugger;
+    this.listService.get();
   }
 }

@@ -6,11 +6,18 @@
           {{ '::Menu:Products' | abpLocalization }}
         </h5>
       </div>
-      <div class="text-right col col-md-6"></div>
+      <div class="text-right col col-md-6">
+          <div class="text-lg-right pt-2">
+              <button id="create" class="btn btn-primary" type="button" (click)="createProduct()">
+                  <i class="fa fa-plus mr-1"></i>
+                  <span>{{ '::NewProduct' | abpLocalization }}</span>
+              </button>
+          </div>
+      </div>
     </div>
   </div>
   <div class="card-body">
-    <ngx-datatable [rows]="product.items" [count]="product.totalCount" [list]="list" default>
+    <ngx-datatable [rows]="product.items" [count]="product.totalCount" [list]="listService" default>
       <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -30,3 +37,5 @@
     </ngx-datatable>
   </div>
 </div>
+
+<app-create-update-product-modal #createUpdateProductModal (productChanged)="onProductChanged()"></app-create-update-product-modal>
