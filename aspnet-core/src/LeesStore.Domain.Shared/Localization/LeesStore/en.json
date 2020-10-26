@@ -9,8 +9,9 @@
     "CreationTime": "Created",
     "NewProduct": "New Product",
     "EditProduct": "Edit Product",
+    "Delete": "Delete",
     "AreYouSure": "Are You Sure?",
-    "AreYouSureToDelete": "Are you sure you want to delete this item?",
+    "AreYouSureToDelete": "Are you sure you want to delete {0}?",
     "Enum:ProductType:0": "Other",
     "Enum:ProductType:1": "Siren",
     "Enum:ProductType:2": "Mug"

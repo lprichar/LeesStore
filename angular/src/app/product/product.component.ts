@@ -2,6 +2,7 @@ import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductDto, ProductsService } from '@proxy/products';
 import { CreateUpdateProductModalComponent } from './create-update-product-modal/create-update-product-modal.component';
+import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-product',
@@ -10,10 +11,16 @@ import { CreateUpdateProductModalComponent } from './create-update-product-modal
   providers: [ListService],
 })
 export class ProductComponent implements OnInit {
-  public product: PagedResultDto<ProductDto> = { items: [], totalCount: 0 } as PagedResultDto<ProductDto>;
+  public product: PagedResultDto<ProductDto> = { items: [], totalCount: 0 } as PagedResultDto<
+    ProductDto
+  >;
   public isModalOpen = false;
 
-  constructor(public readonly listService: ListService, private productService: ProductsService) {}
+  constructor(
+    public readonly listService: ListService,
+    private productService: ProductsService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   @ViewChild('createUpdateProductModal', { static: false })
   protected createUpdateProductModal: CreateUpdateProductModalComponent;
@@ -26,12 +33,22 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  public createProduct() {
+  public create() {
     this.createUpdateProductModal.open();
   }
 
-  public editProduct(product: ProductDto) {
+  public edit(product: ProductDto) {
     this.createUpdateProductModal.open(product);
+  }
+
+  public delete(product: ProductDto) {
+    this.confirmationService
+      .warn('::AreYouSureToDelete', '::AreYouSure', { messageLocalizationParams: [product.name] })
+      .subscribe(status => {
+        if (status === Confirmation.Status.confirm) {
+          this.productService.delete(product.id).subscribe(this.listService.get.bind(this));
+        }
+      });
   }
 
   public onProductChanged(): void {
