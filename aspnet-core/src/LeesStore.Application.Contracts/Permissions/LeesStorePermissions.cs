@@ -4,7 +4,6 @@
     {
         public const string GroupName = "LeesStore";
 
-        //Add your own permission names. Example:
-        //public const string MyPermission1 = GroupName + ".MyPermission1";
+        public const string ViewEditProducts = GroupName + ".ViewEditProducts";
     }
 }

@@ -20,13 +20,15 @@ function configureRoutes(routes: RoutesService) {
         name: '::Menu:ProductStore',
         iconClass: 'fas fa-book',
         order: 2,
-        layout: eLayoutType.application
+        layout: eLayoutType.application,
+        requiredPolicy: 'LeesStore.ViewEditProducts'
       },
       {
         path: '/products',
         name: '::Menu:Products',
         parentName: '::Menu:ProductStore',
-        layout: eLayoutType.application
+        layout: eLayoutType.application,
+        requiredPolicy: 'LeesStore.ViewEditProducts'
       },
     ]);
   };

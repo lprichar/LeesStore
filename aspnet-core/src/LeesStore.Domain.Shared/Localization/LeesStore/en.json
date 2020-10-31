@@ -14,6 +14,7 @@
     "AreYouSureToDelete": "Are you sure you want to delete {0}?",
     "Enum:ProductType:0": "Other",
     "Enum:ProductType:1": "Siren",
-    "Enum:ProductType:2": "Mug"
+    "Enum:ProductType:2": "Mug",
+    "Permission:ViewEditProducts":  "View/Edit Products" 
   }
 }

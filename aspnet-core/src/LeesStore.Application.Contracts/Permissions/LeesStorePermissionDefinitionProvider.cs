@@ -1,6 +1,7 @@
 ﻿using LeesStore.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
+using Volo.Abp.MultiTenancy;
 
 namespace LeesStore.Permissions
 {
@@ -10,8 +11,7 @@ namespace LeesStore.Permissions
         {
             var myGroup = context.AddGroup(LeesStorePermissions.GroupName);
 
-            //Define your own permissions here. Example:
-            //myGroup.AddPermission(LeesStorePermissions.MyPermission1, L("Permission:MyPermission1"));
+            myGroup.AddPermission(LeesStorePermissions.ViewEditProducts, L("Permission:ViewEditProducts"), MultiTenancySides.Both);
         }
 
         private static LocalizableString L(string name)
