@@ -1,23 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using Abp.AspNetCore;
+using Abp.AspNetCore.Mvc.Antiforgery;
+using Abp.AspNetCore.SignalR.Hubs;
+using Abp.Castle.Logging.Log4Net;
+using Abp.Dependency;
+using Abp.Extensions;
+using Abp.Json;
+using Castle.Facilities.Logging;
+using LeesStore.Configuration;
+using LeesStore.Identity;
+using LeesStore.Web.Host.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Castle.Facilities.Logging;
-using Abp.AspNetCore;
-using Abp.AspNetCore.Mvc.Antiforgery;
-using Abp.Castle.Logging.Log4Net;
-using Abp.Extensions;
-using LeesStore.Configuration;
-using LeesStore.Identity;
-using Abp.AspNetCore.SignalR.Hubs;
-using Abp.Dependency;
-using Abp.Json;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace LeesStore.Web.Host.Startup
 {
@@ -98,13 +99,17 @@ namespace LeesStore.Web.Host.Startup
             );
         }
 
-        public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
             app.UseCors(_defaultCorsPolicyName); // Enable CORS!
 
-            app.UseStaticFiles();
+            app.UseDynamicAppConfig(_appConfiguration);
+
+            app.UseSpa();
+
+            app.UseFileServer();
 
             app.UseRouting();
 
@@ -112,14 +117,13 @@ namespace LeesStore.Web.Host.Startup
 
             app.UseAbpRequestLocalization();
 
-          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });
-          
+
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
