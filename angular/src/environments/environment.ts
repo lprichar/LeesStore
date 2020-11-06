@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   application: {
     baseUrl,
-    name: 'LeesStore',
-    logoUrl: '',
+    name: 'Lee\'s Store',
+    logoUrl: 'assets/logo.png',
   },
   oAuthConfig: {
     issuer: 'https://localhost:44360',
