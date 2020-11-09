@@ -26,6 +26,11 @@
           {{ row.price | currency }}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.quantity }}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [name]="'::CreationTime' | abpLocalization" prop="publishDate">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.creationTime | date }}
