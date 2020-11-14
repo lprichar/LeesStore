@@ -11,7 +11,10 @@ namespace LeesStore.Permissions
         {
             var myGroup = context.AddGroup(LeesStorePermissions.GroupName);
 
-            myGroup.AddPermission(LeesStorePermissions.ViewEditProducts, L("Permission:ViewEditProducts"), MultiTenancySides.Both);
+            myGroup.AddPermission(
+                LeesStorePermissions.ViewEditProducts,
+                L("Permission:ViewEditProducts"),
+                MultiTenancySides.Both);
         }
 
         private static LocalizableString L(string name)

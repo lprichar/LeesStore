@@ -47,6 +47,9 @@
               <button ngbDropdownItem (click)="edit(row)">
                 {{ '::Edit' | abpLocalization }}
               </button>
+              <button ngbDropdownItem (click)="incrementQuantity(row)">
+                Increment Quantity
+              </button>
               <button ngbDropdownItem (click)="delete(row)">
                 {{ '::Delete' | abpLocalization }}
               </button>

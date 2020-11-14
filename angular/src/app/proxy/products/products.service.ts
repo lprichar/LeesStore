@@ -39,6 +39,13 @@ export class ProductsService {
     },
     { apiName: this.apiName });
 
+  incrementQuantityByProductId = (productId: number) =>
+    this.restService.request<any, ProductDto>({
+      method: 'POST',
+      url: `/api/app/products/incrementQuantity/${productId}`,
+    },
+    { apiName: this.apiName });
+
   update = (id: number, input: CreateProductDto) =>
     this.restService.request<any, ProductDto>({
       method: 'PUT',

@@ -51,6 +51,10 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  public incrementQuantity(product: ProductDto) {
+    this.productService.incrementQuantityByProductId(product.id).subscribe(this.listService.get.bind(this));
+  }
+
   public onProductChanged(): void {
     this.listService.get();
   }
