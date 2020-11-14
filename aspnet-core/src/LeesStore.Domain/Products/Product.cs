@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Volo.Abp.Domain.Entities.Auditing;
+﻿using Volo.Abp.Domain.Entities.Auditing;
 
 namespace LeesStore.Products
 {
-    public class Product : AuditedAggregateRoot<int>
+    public class Product : FullAuditedAggregateRoot<int>
     {
-        [Required, MaxLength(255)]
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
