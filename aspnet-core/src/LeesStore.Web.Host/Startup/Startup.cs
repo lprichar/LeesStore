@@ -1,29 +1,31 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using Abp.AspNetCore;
+using Abp.AspNetCore.Mvc.Antiforgery;
+using Abp.AspNetCore.SignalR.Hubs;
+using Abp.Castle.Logging.Log4Net;
+using Abp.Dependency;
+using Abp.Extensions;
+using Abp.Json;
+using Castle.Facilities.Logging;
+using LeesStore.Configuration;
+using LeesStore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Castle.Facilities.Logging;
-using Abp.AspNetCore;
-using Abp.AspNetCore.Mvc.Antiforgery;
-using Abp.Castle.Logging.Log4Net;
-using Abp.Extensions;
-using LeesStore.Configuration;
-using LeesStore.Identity;
-using Abp.AspNetCore.SignalR.Hubs;
-using Abp.Dependency;
-using Abp.Json;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace LeesStore.Web.Host.Startup
 {
     public class Startup
     {
         private const string _defaultCorsPolicyName = "localhost";
+        public static string SwashbuckleClientV1ApiGroupName = "client-v1";
+        public const string SwashbuckleWebAppApiGroupName = "v1";
 
         private readonly IConfigurationRoot _appConfiguration;
 
@@ -38,6 +40,7 @@ namespace LeesStore.Web.Host.Startup
             services.AddControllersWithViews(
                 options =>
                 {
+                    options.Conventions.Add(new SwaggerFileMapperConvention());
                     options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
                 }
             ).AddNewtonsoftJson(options =>
@@ -76,8 +79,10 @@ namespace LeesStore.Web.Host.Startup
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo() { Title = "LeesStore API", Version = "v1" });
-                options.DocInclusionPredicate((docName, description) => true);
+                // We want two swagger files, one for the web app and one for clients.  See ApiExplorerGroupPerVersionConvention
+                //   for how we determine which endpoint goes in which swagger file
+                options.SwaggerDoc(SwashbuckleWebAppApiGroupName, new OpenApiInfo() { Title = "LeesStore API", Version = SwashbuckleWebAppApiGroupName });
+                options.SwaggerDoc(SwashbuckleClientV1ApiGroupName, new OpenApiInfo { Title = "LeesStore Client API", Version = SwashbuckleClientV1ApiGroupName });
 
                 // Define the BearerAuth scheme that's in use
                 options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
@@ -98,7 +103,7 @@ namespace LeesStore.Web.Host.Startup
             );
         }
 
-        public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
@@ -112,20 +117,23 @@ namespace LeesStore.Web.Host.Startup
 
             app.UseAbpRequestLocalization();
 
-          
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });
-          
+
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint(_appConfiguration["App:ServerRootAddress"].EnsureEndsWith('/') + "swagger/v1/swagger.json", "LeesStore API V1");
+                var baseUrl = _appConfiguration["App:ServerRootAddress"].EnsureEndsWith('/');
+                options.SwaggerEndpoint($"{baseUrl}swagger/{SwashbuckleWebAppApiGroupName}/swagger.json", "LeesStore API V1");
+                options.SwaggerEndpoint($"{baseUrl}swagger/{SwashbuckleClientV1ApiGroupName}/swagger.json", "LeesStore Client API V1");
+
                 options.IndexStream = () => Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("LeesStore.Web.Host.wwwroot.swagger.ui.index.html");
             }); // URL: /swagger
