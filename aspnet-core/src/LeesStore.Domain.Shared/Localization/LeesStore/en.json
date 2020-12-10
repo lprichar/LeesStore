@@ -1,0 +1,20 @@
+{
+  "culture": "en",
+  "texts": {
+    "Menu:Home": "Home",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Menu:ProductStore": "Product",
+    "Menu:Products": "View Products",
+    "CreationTime": "Created",
+    "NewProduct": "New Product",
+    "EditProduct": "Edit Product",
+    "Delete": "Delete",
+    "AreYouSure": "Are You Sure?",
+    "AreYouSureToDelete": "Are you sure you want to delete {0}?",
+    "Enum:ProductType:0": "Other",
+    "Enum:ProductType:1": "Siren",
+    "Enum:ProductType:2": "Mug",
+    "Permission:ViewEditProducts":  "View/Edit Products" 
+  }
+}

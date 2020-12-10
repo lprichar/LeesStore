@@ -1,16 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
   <PropertyGroup>
-    <VersionPrefix>1.0.0.0</VersionPrefix>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <AssemblyName>LeesStore.Application</AssemblyName>
-    <PackageId>LeesStore.Application</PackageId>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <RootNamespace>LeesStore</RootNamespace>
   </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\LeesStore.Core\LeesStore.Core.csproj" />
+    <ProjectReference Include="..\LeesStore.Domain\LeesStore.Domain.csproj" />
+    <ProjectReference Include="..\LeesStore.Application.Contracts\LeesStore.Application.Contracts.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Account.Application" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="3.2.1" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">
+          {{ '::Menu:Products' | abpLocalization }}
+        </h5>
+      </div>
+      <div class="text-right col col-md-6">
+        <button id="create" class="btn btn-primary" type="button" (click)="create()">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable [rows]="product.items" [count]="product.totalCount" [list]="listService" default>
+      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ '::Enum:ProductType:' + row.productType | abpLocalization }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.price | currency }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Quantity' | abpLocalization" prop="quantity">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.quantity }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::CreationTime' | abpLocalization" prop="publishDate">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.creationTime | date }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="70" [sortable]="false">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div ngbDropdown container="body" class="d-inline-block">
+            <button class="btn btn-inverse btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+              ngbDropdownToggle>
+              <i class="fa fa-cog mr-1"></i>
+            </button>
+            <div ngbDropdownMenu>
+              <button ngbDropdownItem (click)="edit(row)">
+                {{ '::Edit' | abpLocalization }}
+              </button>
+              <button ngbDropdownItem (click)="incrementQuantity(row)">
+                Increment Quantity
+              </button>
+              <button ngbDropdownItem (click)="delete(row)">
+                {{ '::Delete' | abpLocalization }}
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<app-create-update-product-modal #createUpdateProductModal (productChanged)="onProductChanged()">
+</app-create-update-product-modal>
