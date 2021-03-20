@@ -1,21 +1,21 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
+using LeesStore.EntityFrameworkCore;
+using LeesStore.MultiTenancy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using LeesStore.EntityFrameworkCore;
-using LeesStore.MultiTenancy;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
@@ -107,7 +107,7 @@ namespace LeesStore
             context.Services.AddSwaggerGen(
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "LeesStore API", Version = "v1"});
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "LeesStore API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                 });
         }
@@ -172,6 +172,7 @@ namespace LeesStore
             app.UseRouting();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthentication();
+            app.UseSessionLogging();
             app.UseJwtTokenMiddleware();
 
             if (MultiTenancyConsts.IsEnabled)

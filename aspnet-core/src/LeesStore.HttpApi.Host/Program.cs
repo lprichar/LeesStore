@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using System;
 
 namespace LeesStore
 {
@@ -18,7 +18,8 @@ namespace LeesStore
 #endif
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                .WriteTo.Async(c => c.File("Logs/logs.txt", outputTemplate:
+                    "{Level:u4} [{UserId}] [{TenantId}] [{Timestamp:HH:mm:ss}] {Message:lj}{NewLine}{Exception}"))
 #if DEBUG
                 .WriteTo.Async(c => c.Console())
 #endif
